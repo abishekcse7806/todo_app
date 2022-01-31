@@ -52,7 +52,8 @@ class TodoService {
   Future<List<Todo>> getCompleted() async {
     List<Todo> completed = [];
 
-    http.Response response = await http.get(Uri.parse('$baseUrl/completed'));
+    http.Response response =
+        await http.get(Uri.parse('$baseUrl/completed_page'));
 
     var decoded = jsonDecode(response.body);
     currentInfo = decoded['info'];

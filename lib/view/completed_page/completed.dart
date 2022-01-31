@@ -9,7 +9,7 @@ import 'package:todo_app/view/widgets/add_alert.dart';
 import 'package:todo_app/view/widgets/custom_list_tile.dart';
 
 class Completed extends StatefulWidget {
-  static const String pageID = 'completed';
+  static const String pageID = 'completed_page';
 
   const Completed({Key? key}) : super(key: key);
 
