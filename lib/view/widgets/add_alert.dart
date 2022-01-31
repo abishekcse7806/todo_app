@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/constants/strings.dart';
 
 import '../../service/todo_service.dart';
 
@@ -67,7 +68,7 @@ class AddAlert extends StatelessWidget {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Check Form'),
+                      content: Text(kTextCheckTheForm),
                     ),
                   );
                 }
