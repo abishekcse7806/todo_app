@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/strings.dart';
+import 'package:todo_app/constants/utilities.dart';
+import 'package:todo_app/custom_widget/custom_formfield.dart';
 
 import '../../service/todo_service.dart';
 
-class AddAlert extends StatelessWidget {
+class AddAlert extends StatefulWidget {
   const AddAlert({Key? key, required this.refresh}) : super(key: key);
 
   final Function refresh;
+
+  @override
+  State<AddAlert> createState() => _AddAlertState();
+}
+
+class _AddAlertState extends State<AddAlert> {
+  late DateTime _selectedDate = DateTime.now();
+
+  final TextEditingController _dateControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +46,42 @@ class AddAlert extends StatelessWidget {
                 return '! Required';
               },
             ),
-            TextFormField(
-              autofocus: true,
-              decoration: const InputDecoration(label: Text('Description')),
+            CustomFormField(
+              hintText: kTextTask,
+              maxLength: 30,
+              onSave: (input) {
+                title = input!;
+              },
+              validation: ValidationType.emptiness,
+            ),
+            CustomFormField(
+              hintText: kTextDescription,
+              autoFocused: true,
               maxLines: 2,
-              onSaved: (input) {
+              onSave: (input) {
                 description = input!;
               },
-              validator: (input) {
-                if (input != null && input.isNotEmpty) {
-                  return null;
+              validation: ValidationType.emptiness,
+            ),
+            CustomFormField(
+              hintText: kTextSelectDate,
+              readOnly: true,
+              validation: ValidationType.emptiness,
+              onTapped: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: _selectedDate,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime(2050, 12),
+                );
+
+                if (pickedDate != null && pickedDate != _selectedDate) {
+                  setState(() {
+                    _selectedDate = pickedDate;
+                    _dateControl.text =
+                        '${_selectedDate.toLocal()}'.split(' ')[0];
+                  });
                 }
-                return '! Required';
               },
             ),
             ElevatedButton(
@@ -62,7 +97,7 @@ class AddAlert extends StatelessWidget {
                   TodoService().showCustomSnackBar(context);
 
                   if (added) {
-                    refresh();
+                    widget.refresh();
                     Navigator.pop(context);
                   }
                 } else {
@@ -73,7 +108,7 @@ class AddAlert extends StatelessWidget {
                   );
                 }
               },
-            )
+            ),
           ],
         ),
       ),

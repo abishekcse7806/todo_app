@@ -1,0 +1,5 @@
+enum ValidationType {
+  emptiness,
+
+  dateTime,
+}
