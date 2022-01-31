@@ -15,7 +15,7 @@ class AddAlert extends StatefulWidget {
 }
 
 class _AddAlertState extends State<AddAlert> {
-  late DateTime _selectedDate = DateTime.now();
+  late DateTime dateTime = DateTime.now();
 
   final TextEditingController _dateControl = TextEditingController();
 
@@ -70,16 +70,15 @@ class _AddAlertState extends State<AddAlert> {
               onTapped: () async {
                 DateTime? pickedDate = await showDatePicker(
                   context: context,
-                  initialDate: _selectedDate,
+                  initialDate: dateTime,
                   firstDate: DateTime.now(),
                   lastDate: DateTime(2050, 12),
                 );
 
-                if (pickedDate != null && pickedDate != _selectedDate) {
+                if (pickedDate != null && pickedDate != dateTime) {
                   setState(() {
-                    _selectedDate = pickedDate;
-                    _dateControl.text =
-                        '${_selectedDate.toLocal()}'.split(' ')[0];
+                    dateTime = pickedDate;
+                    _dateControl.text = '${dateTime.toLocal()}'.split(' ')[0];
                   });
                 }
               },
@@ -91,8 +90,10 @@ class _AddAlertState extends State<AddAlert> {
                   formKey.currentState!.save();
                   formKey.currentState!.reset();
 
-                  bool added = await TodoService()
-                      .add(title: title, description: description);
+                  bool added = await TodoService().add(
+                      title: title,
+                      description: description,
+                      dateTime: dateTime);
 
                   TodoService().showCustomSnackBar(context);
 

@@ -78,10 +78,14 @@ class TodoService {
 
   //void getDetail({required int id}) {}
 
-  Future<bool> add({required String title, required String description}) async {
+  Future<bool> add(
+      {required String title,
+      required String description,
+      required DateTime dateTime}) async {
     var response = await http.post(Uri.parse('$baseUrl/'), body: {
       "title": title,
       "description": description,
+      "dateTime": dateTime,
     });
     var decoded = jsonDecode(response.body);
 
@@ -93,10 +97,12 @@ class TodoService {
     required int id,
     required String newTitle,
     required String newDesc,
+    required DateTime taskDate,
   }) async {
     var response = await http.put(Uri.parse('$baseUrl/edit/$id'), body: {
       "title": newTitle,
       "description": newDesc,
+      "dateTime": taskDate,
     });
 
     var decoded = jsonDecode(response.body);
