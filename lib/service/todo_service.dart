@@ -28,7 +28,7 @@ class TodoService {
   Future<List<Todo>> getPending() async {
     List<Todo> pending = [];
 
-    http.Response response = await http.get(Uri.parse('$baseUrl/pending'));
+    http.Response response = await http.get(Uri.parse('$baseUrl/pending_page'));
 
     var decoded = jsonDecode(response.body);
     currentInfo = decoded['info'];
